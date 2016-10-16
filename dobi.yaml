@@ -1,0 +1,40 @@
+
+meta:
+    project: go-connections
+
+
+mount=source:
+    bind: .
+    path: /go/src/github.com/docker/go-connections
+
+mount=dist:
+    bind: ./dist/bin/
+    path: /go/bin/
+
+
+image=builder:
+    image: go-connections-dev
+    context: dockerfiles
+    dockerfile: Dockerfile.build
+
+
+job=shell:
+    use: builder
+    interactive: true
+    mounts: [source, dist]
+    command: bash
+
+job=test-unit:
+    use: builder
+    mounts: [source, dist]
+    interactive: true
+    command: "bash -c 'go test -v $(glide nv)'"
+
+job=deps:
+    use: builder
+    mounts: [source]
+    command: "glide install"
+    sources: [glide.yaml]
+
+alias=test:
+    tasks: [test-unit]

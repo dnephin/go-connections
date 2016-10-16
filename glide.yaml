@@ -1,0 +1,8 @@
+package: .
+import:
+- package: github.com/Sirupsen/logrus
+  version: 26709e2714106fb8ad40b773b711ebce25b78914
+- package: github.com/opencontainers/runc
+  version: 072fa6fdccaba49b11ba91ad4265b1ec1043787e
+  subpackages:
+  - /libcontainer/user
